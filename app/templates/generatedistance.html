@@ -1,0 +1,44 @@
+
+{% extends 'layout/base.html'%}
+{% block content %}
+<div id='wrap' style="margin:100px">
+    <div class = "container container-xs-height">
+ <div class="row">
+    <div class="col-med-8">
+        <div class="item">
+            <div class="content">
+            
+            <h2 style="font-family:helvetica; margin-left:auto; margin-right:auto;"> Enjoy your {SetList]! </h2>
+            </div>
+        </div>
+    </div>
+ </div>
+
+ <div class="row">
+        <div class="col-sm-4">
+            <div class="item">
+                <div class='content'>
+                    <h3 style="font-family:helvetica; font-size:20px;" > Your {SetList]: 
+                        <ol>
+                        {% for song in bestpath %}
+                            <li> {{song}} </li>
+                        {% endfor %}
+                        </ol>
+                    <p><a class="btn btn-default" href="#" role="button">Try it again!&raquo;</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <div class="item">
+                <div class='content'>
+                    <h3 style="font-family:helvetica; font-size:20px;"> The transition score is {{minval}}! This playlist has {{improvement}}% better transitions than the shuffled version ({{minval}} compared to {{avg_shuffle}}).</h3>
+                    <img src="{{url}}" height="450px" width="600px" style="margin-left:auto; margin-right:auto">
+                </div>
+            </div>
+        </div>
+  </div>
+</div>
+
+
+
+{% endblock %}

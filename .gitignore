@@ -1,0 +1,11 @@
+.DS_Store
+venv/
+app/static/vendor
+node_modules
+*.pyc
+/storage
+*.*~
+/pycharm-3.4
+/Spotify
+/.swp
+/.~lock.traininglist.ods#

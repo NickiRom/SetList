@@ -1,0 +1,259 @@
+/* Your CSS Styling */
+.col-top {
+    vertical-align:top;
+}
+.container-xs-height {
+    display:table;
+    padding-left:0px;
+    padding-right:0px;
+}
+.row-xs-height {
+    display:table-row;
+}    display:table-cell;
+    float:none;
+}
+.col-sm-height {
+    display:table-cell;
+    float:none;
+}
+@media (min-width: 992px) {
+    .container-md-height {
+        display:table;
+        padding-left:0px;
+        padding-right:0px;
+    }
+    .row-md-height {
+        display:table-row;
+    }
+    .col-md-height {
+        display:table-cell;
+        float:none;
+    }
+}
+/* Sticky footer styles
+-------------------------------------------------- */
+html,
+body {
+  height: 100%;
+  /* The html and body elements cannot have any padding or margin. */
+  background-image: url("party.jpg");
+  background-size: cover;
+  overflow-y:auto;
+
+}
+
+h3{
+  font-family:helvetica, sans-serif;
+  font-size: "small";
+}
+
+/* Wrapper for page content to push down footer */
+#wrap {
+  min-height: 100%;
+  height: auto;
+  /* Negative indent footer by its height */
+  margin: 100px 0 auto 100px;
+  /* Pad bottom by footer height */
+  padding: 0 0 40px;
+}
+
+
+
+
+.btn-style{
+	border : solid 0px #ffffff;
+	border-radius : 11px;
+	moz-border-radius : 11px;
+	-webkit-box-shadow : 0px 0px 5px rgba(0,0,0,1.0);
+	-moz-box-shadow : 0px 0px 5px rgba(0,0,0,1.0);
+	box-shadow : 0px 0px 5px rgba(0,0,0,1.0);
+	font-size : 20px;
+	color : #000000;
+	padding : 6px 6px;
+	background-color : #03b5c9;
+
+}
+  
+input[type="text"]{
+  color:#4b6c9;
+  font-family:helvetica, sans-serif;
+
+}
+.input-group {
+  position: relative;
+  display: table;
+  border-collapse: separate;
+}
+.container{
+    max-width:99%
+}
+[class*="col-"] {
+    padding-top:10px;
+    padding-bottom:15px;
+
+}
+[class*="col-"]:before {
+    display:block;position:relative;
+    margin-bottom:8px;
+	font-family:sans-serif;
+	font-size:10px;
+    letter-spacing:1px;
+    text-align:left;
+}
+.item {
+    width:100%;
+    height:100%;
+
+    padding:16px 8px;
+	background-color:rgba(4,182,201,.7);
+}
+
+
+#image-container{
+  position:absolute;
+  top:0px;
+  left:0px;
+  background-size: cover;
+  background-image: url(https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTeoFZFtbGA8ixpldMLJ1z4_IO4Gc5AOU3GhSTSh4V8jIQHAdFf8g");
+}
+
+.nav {
+    background: #232323;
+    height: 60px;
+    display: inline-block;
+}
+ 
+.nav li {
+    float: left;
+    list-style-type: none;
+    position: relative;
+}
+
+.nav li a {
+    font-size: 16px;
+    color: white;
+    display: block;
+    line-height: 60px;
+    padding: 0 26px;
+    text-decoration: none;
+    border-left: 1px solid #2e2e2e;
+    font-family: Montserrat, sans-serif;
+    text-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
+}
+.nav li a:hover {
+    background-color: #2e2e2e;
+}
+
+/*---------------------------------------------*/
+#options a{
+    border-left: 0 none;
+}
+#options>a {
+    background-image: url(triangle.png);
+    background-position: 85% center;
+    background-repeat: no-repeat;
+    padding-right: 42px;
+}
+.subnav {
+    visibility: hidden;
+    position: absolute;
+    top: 110%;
+    right: 0;
+    width: 200px;
+    height: auto;
+    opacity: 0;
+    transition: all 0.1s;
+    background: #232323;
+}
+.subnav li {
+    float: none;
+}
+.subnav li a {
+    border-bottom: 1px solid #2e2e2e;
+}
+#options:hover .subnav {
+    visibility: visible;
+    top: 100%;
+    opacity: 1;
+}
+
+/*---------------------------------------------*/
+
+#search {
+    width: 357px;
+    margin: 4px;
+}
+#search_text{
+    width: 297px;
+    padding: 15px 0 15px 20px;
+    font-size: 16px;
+    font-family: Montserrat, sans-serif;
+    border: 0 none;
+    height: 52px;
+    margin-right: 0;
+    color: white;
+    outline: none;
+    background: #1f7f5c;
+    float: left;
+    box-sizing: border-box;
+    transition: all 0.15s;
+}
+::-webkit-input-placeholder { /* WebKit browsers */
+    color: white;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: white;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: white;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color: white;
+}
+#search_text:focus {
+    background: rgb(64, 151, 119);
+}
+#search_button {
+    border: 0 none;
+    background: #1f7f5c url(search.png) center no-repeat;
+    width: 60px;
+    float: left;
+    padding: 0;
+    text-align: center;
+    height: 52px;
+    cursor: pointer;
+}
+ 
+#settings a {
+    padding: 18px;
+    height: 24px;
+    font-size: 10px;
+    line-height: 24px;
+}
+
+
+/* Set the fixed height of the footer here */
+#footer {
+  position: fixed;
+  bottom: 0;
+  height: 40px;
+  width: 100%;
+  background-color: #f5f5f5;
+}
+
+/* Genericon social icon styles
+---------------------------------------------------- */
+.genericon-github:before,
+.genericon-linkedin:before,
+.genericon-twitter:before {
+    -webkit-font-smoothing: antialiased;
+    font: normal 32px/1 'Genericons';
+    vertical-align: middle;
+}
+
+.social-icons {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 10px;
+}
+
