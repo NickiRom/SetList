@@ -54,8 +54,8 @@ def beatspl2tracks(beats_playlist):
     client_id = '&client_id=cu4dweftqe5nt2wcpukcvgqu'
     
     url = 'https://partner.api.beatsmusic.com/v1/api/playlists/' + beats_playlist + access_token
-    response = requests.get(url)
-    json_obj = json.loads(response.text)
+    response = urllib2.urlopen(url)
+    json_obj = json.load(response)
     pprint(json_obj)
     datum = json_obj['data']['refs']['tracks']
     
@@ -310,6 +310,10 @@ def DiGraph(songdatalist, dist_matrix, playlist):
     for songs in bestlist:
         bestpath.append(songs[0])
     print bestpath
+
+    #get artist names associated with bestpath:
+    '''for songs in bestpath:
+        artist = summarydf'''
     
                 
     avg_shuffle= sum(shuffleweight)/len(shuffleweight)
