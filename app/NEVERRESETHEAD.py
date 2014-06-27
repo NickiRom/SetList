@@ -50,7 +50,7 @@ def setlist(beats_playlist):
 #--------------------------------------------------------------------
 def beatspl2tracks(beats_playlist):
     
-    access_token = '?access_token=cmgntmf8jasy56jntgf8myca'
+    access_token = '?access_token=anckeqyvtkvf52r77thwwk46'
     client_id = '&client_id=cu4dweftqe5nt2wcpukcvgqu'
     
     url = 'https://partner.api.beatsmusic.com/v1/api/playlists/' + beats_playlist + access_token
@@ -309,6 +309,7 @@ def DiGraph(songdatalist, dist_matrix, playlist):
     bestpath = []
     for songs in bestlist:
         bestpath.append(songs[0])
+    print bestpath
     
                 
     avg_shuffle= sum(shuffleweight)/len(shuffleweight)
