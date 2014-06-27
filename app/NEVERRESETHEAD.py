@@ -20,13 +20,15 @@ import urllib
 import scipy
 from scipy import *
 from scipy.spatial.distance import pdist, wminkowski, squareform
-import matplotlib.pyplot as plt
+from matplotlib import pyplot as plt
 import prettyplotlib as ppl
 import networkx as nx
 from networkx.algorithms.traversal.depth_first_search import dfs_tree
 from collections import defaultdict
 from operator import itemgetter
 import random
+
+matplotlib.use('Agg')
 
 def setlist(beats_playlist):
     
