@@ -1,4 +1,7 @@
 # imports
+import matplotlib
+matplotlib.use('Agg')
+
 from flask import Flask
 
 # Creates our application.
