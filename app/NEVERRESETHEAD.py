@@ -28,7 +28,6 @@ from collections import defaultdict
 from operator import itemgetter
 import random
 
-matplotlib.use('Agg')
 
 def setlist(beats_playlist):
     
