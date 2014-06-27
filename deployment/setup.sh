@@ -113,7 +113,7 @@ start_app () {
 
     # Runs the app within a screen detached mode
     cd $project_dir
-    screen -d -m gunicorn app:app
+    screen -d -m gunicorn -t 120 app:app
 
     # Restarts nginx
     sudo service nginx restart
