@@ -20,8 +20,8 @@
                 <div class='content'>
                     <h3 style="font-family:helvetica; font-size:20px;" > Your {SetList]: 
                         <ol>
-                        {% for song in bestpath %}
-                            <li> {{song}} </li>
+                        {% for song in songs_and_artists %}
+                            <li> {{song[1]}}</li>
                         {% endfor %}
                         </ol>
                     <p><a class="btn btn-default" href="index.html" role="button">Try it again!&raquo;</a></p>
