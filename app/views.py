@@ -29,12 +29,13 @@ def getplaylistinfo():
  
 
     beatstracks = beatspl2tracks(query)
-    entracks = beats2echonest(beatstracks)
+    entracks = beats2echonest(beatstracks)  
+    
     filename = 'request_' + query
     songdatalist, dist_matrix, playlist = EN_id2summary(filename, entracks)
-    bestlist, minval, shuffle, avg_shuffle, improvement, orig_tups= DiGraph(songdatalist, dist_matrix, playlist)
+    bestpath, minval, shuffle, avg_shuffle, improvement, orig_tups= DiGraph(songdatalist, dist_matrix, playlist)
     
-    return render_template('getplaylistinfo.html',  query=query, playlist=playlist)
+    return render_template('getplaylistinfo.html',  query=query, playlist=bestpath)
 
 app.secret_key='junk'
 
