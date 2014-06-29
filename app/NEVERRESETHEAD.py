@@ -151,7 +151,7 @@ def EN_id2summary(filename, EN_id_list):
             tempdict = json_obj['response']['songs'][0]['audio_summary']
             tempdf = pd.DataFrame(tempdict, index = [1])
 
-            tempdf['artist']= json_obj['response']['songs'][0]['artist_id']
+            tempdf['artist']= json_obj['response']['songs'][0]['artist_name']
             tempdf['track_id']= json_obj['response']['songs'][0]['id']
             tempdf['song']=json_obj['response']['songs'][0]['title']
             playlist.append(json_obj['response']['songs'][0]['title'])

@@ -21,7 +21,7 @@
                     <h3 style="font-family:helvetica; font-size:20px;" > Your {SetList]: 
                         <ol>
                         {% for song in songs_and_artists %}
-                            <li> {{song[1]}}</li>
+                            <li> {{song[0]}}{{song[1]}}</li>
                         {% endfor %}
                         </ol>
                     <p><a class="btn btn-default" href="index.html" role="button">Try it again!&raquo;</a></p>
