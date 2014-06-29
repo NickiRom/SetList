@@ -18,12 +18,17 @@
         <div class="col-sm-4">
             <div class="item">
                 <div class='content'>
-                    <h3 style="font-family:helvetica; font-size:20px;" > Your {SetList]: 
-                        <ol>
-                        {% for song in songs_and_artists %}
-                            <li> {{song[0]}}{{song[1]}}</li>
-                        {% endfor %}
-                        </ol>
+                    <table class = "playlist" style="font-family:helvetica;">
+                      {% for listing in songs_and_artists %}
+                        <tr>
+                          <th scope="row">{{loop.index}}</th>
+                          <td>
+                            <b>{{listing[0]}}</b>&nbsp&nbsp&nbsp
+                            {{listing[1]}}
+                          </td>
+                        </tr>
+                      {% endfor %}
+                    </table>
                     <p><a class="btn btn-default" href="index.html" role="button">Try it again!&raquo;</a></p>
                 </div>
             </div>
