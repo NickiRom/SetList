@@ -80,7 +80,6 @@ h3{
   font-family:helvetica, sans-serif;
   font-size: "small";
 }
-
 /* Wrapper for page content to push down footer */
 #wrap {
   min-height: 100%;
@@ -186,14 +185,16 @@ input[type="text"]{
     background-image: url(triangle.png);
     background-position: 85% center;
     background-repeat: no-repeat;
-    padding-right: 42px;
+    padding-right: 60px;
 }
+
+
 .subnav {
     visibility: hidden;
     position: absolute;
     top: 110%;
     right: 0;
-    width: 200px;
+    width: 250px;
     height: auto;
     opacity: 0;
     transition: all 0.1s;
