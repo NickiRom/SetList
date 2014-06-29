@@ -8,43 +8,39 @@
         <H3 style="font-family:helvetica;margin-left:150px"> Set your life to music. </H3>
 
             <div class="container">	
-                <ul class="nav" style="margin-top:100px">
+ 
 
-                    <li>
-                    <a href="#">Surprise me!</a>
-                    </li>
+<div class="searchbox">
+    <form action="/generatedistance" method="POST">
+    <searchfield>
+        <p style="margin-bottom: 6px;width:288px;background-color:#333;color:#fff"><input style="text-align: center;" type="text" name="query" placeholder="Beats Playlist ID" id="charityName" class="typeahead" />
+        <p style="margin-left: 100px;margin-right: 100px;"><input style="width:88px;height:30px;text-align: center;"type="submit" class="button"/></p>
+    </searchfield>
+    </form>
+</div>
 
-                    <li id="search">
-                        <form action="/generatedistance" method="post">
-                            <input type="text" name="query" id="search_text" placeholder="Search"/>
-                            <input type="button" name="search_button" id="search_button"></a>
-                        </form>
-                    </li>
-                    <li id="options">
-                        <a href="#">Options</a>
-                        <ul class="subnav">
-                            <li><a href = "pl196411940837261312">pl196411940837261312</a></li>
-                            <li><a href="pl2">pl170577122547466496</a></li>
-                            <li><a href="pl3">pl147773287731036416</a></li>
-                            <li><a href="pl4">pl151894969496371456</a></li>
-                            <li><a href="pl5">pl151764388523540736</a></li>
-                            <li><a href="pl6">pl152858163299746048</a></li>
-                            <li><a href="pl7">pl196764123525021952</a></li>
-                            <li><a href="pl8">pl196411940837261312</a></li>
-                            <li><a href="pl9">pl197125380790813184</a></li>
-                        </ul>
-                    </li>
-                </ul>
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <form action="/generatedistance" method="post">
-                    <div class="input-group">
-                        <div class="input-group-btn">
-                            <button type="button" class = "btn btn-default dropdown-toggle" onchange=
-        <H3 style="font-family:helvetica;margin-left:150px"> Powered by <a href="https://developer.beatsmusic.com/"> Beats Music API </a> and <a href="http://developer.echonest.com/"> EchoNest API. </a></H3>
-        </div>
+
+
 	</div>
+
+<script>
+$('#charityName').typeahead([
+{
+name: 'setListLocal',
+prefetch: {
+   url: "{{ url_for('static', filename='charitynamesCN.json')}}",
+   ttl: 0
+},
+valueKey: 'name',
+limit: 10
+}
+]);
+</script>
+
 	<br>
 	<br>
+<footer>
+  <p></p>
+</footer>
 
 {% endblock %}
