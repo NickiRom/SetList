@@ -38,10 +38,23 @@
                 <div class='content'>
                     <h3 style="font-family:helvetica; font-size:20px;"> The transition score is {{minval}}! This playlist has {{improvement}}% better transitions than the shuffled version ({{minval}} compared to {{avg_shuffle}}).</h3>
                     <img src="{{url}}" height="450px" width="600px" style="margin-left:auto; margin-right:auto">
+                    <table class = "playlist" style="font-family:helvetica;">
+                      {% for listing in orig_artists_and_songs %}
+                        <tr>
+                          <th scope="row">{{listing[0]}}</th>
+                          <td>
+                            <b>{{listing[1]}}</b>&nbsp&nbsp&nbsp
+                            {{listing[2]}}
+                          </td>
+                        </tr>
+                      {% endfor %}
+                    </table>
+                    <img src="{{url2}}" style="margin-left:auto; margin-right:auto">
                 </div>
             </div>
         </div>
   </div>
+
 </div>
 
 

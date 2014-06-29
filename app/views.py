@@ -1,5 +1,5 @@
-
-from flask import Flask, render_template, request, session, url_for
+import os
+from flask import Flask, render_template, request, session, url_for, jsonify
 from app import app, host, port, user, passwd, db
 from app.helpers.database import con_db
 import pymysql
@@ -33,7 +33,7 @@ def getplaylistinfo():
     
     filename = 'request_' + query
     songdatalist, dist_matrix, playlist = EN_id2summary(filename, entracks)
-    bestpath, minval, shuffle, avg_shuffle, improvement, orig_tups= DiGraph(songdatalist, dist_matrix, playlist)
+    bestpath, minval, shuffle, avg_shuffle, improvement, orig_tups= DiGraph(songdatalist, dist_matrix, playlist, summarydf, filename)
     
     return render_template('getplaylistinfo.html',  query=query, playlist=bestpath)
 
@@ -48,9 +48,10 @@ def generatedistance():
     beatstracks = beatspl2tracks(query)
     entracks = beats2echonest(beatstracks)
     filename = 'request_' + query + '.png'
-    songdatalist, dist_matrix, playlist, summarydf = EN_id2summary(filename, entracks)
-    bestpath, min_edgepath, shuffle, avg_shuffle, improvement, songs_and_artists = DiGraph(songdatalist, dist_matrix, playlist, summarydf)
-    filename = url_for('static', filename=filename)
+    songdatalist, dist_matrix, playlist, summarydf, orig_artists_and_songs = EN_id2summary(filename, entracks)
+    bestpath, min_edgepath, shuffle, avg_shuffle, improvement, songs_and_artists = DiGraph(songdatalist, dist_matrix, playlist, summarydf, filename)
+    url = url_for('static', filename=filename)
+    url2 = url_for('static', filename="comparison_"+filename)
 
     print songs_and_artists
 
@@ -58,7 +59,7 @@ def generatedistance():
     for song in songs_and_artists:
         artists.append(song[1])
     
-    return render_template('generatedistance.html', query=query, url = filename, bestpath=bestpath, minval=min_edgepath, shuffle=shuffle, avg_shuffle=avg_shuffle, improvement=improvement, songs_and_artists=songs_and_artists)
+    return render_template('generatedistance.html', query=query, url = url, url2=url2, bestpath=bestpath, minval=min_edgepath, shuffle=shuffle, avg_shuffle=avg_shuffle, improvement=improvement, songs_and_artists=songs_and_artists, orig_artists_and_songs=orig_artists_and_songs)
     
 @app.route('/progressbar')
 def progressbar():
