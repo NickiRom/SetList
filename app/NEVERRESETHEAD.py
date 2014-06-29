@@ -20,6 +20,7 @@ import urllib
 import scipy
 from scipy import *
 from scipy.spatial.distance import pdist, wminkowski, squareform
+import matplotlib as mpl
 from matplotlib import pyplot as plt
 import prettyplotlib as ppl
 import networkx as nx
@@ -52,7 +53,7 @@ def setlist(beats_playlist):
 #--------------------------------------------------------------------
 def beatspl2tracks(beats_playlist):
     
-    access_token = '?access_token=jkmvwusk3g3vsq2ush6tzx58'
+    access_token = '?access_token=p64sd3khpa47xjnfbtxm2apd'
     client_id = '&client_id=cu4dweftqe5nt2wcpukcvgqu'
     
     url = 'https://partner.api.beatsmusic.com/v1/api/playlists/' + beats_playlist + access_token
@@ -163,7 +164,7 @@ def EN_id2summary(filename, EN_id_list):
     summarydf = pd.DataFrame(df, columns = columns)
     
     #get an original ordering of songs and artists to display next to transition matrix
-    orig_songs_and_artists=[]
+    orig_artists_and_songs=[]
     artists = summarydf[:]['artist'].tolist()  #get list of artists
     songs = summarydf[:]['song'].tolist()   #get list of songs (in original order)
     length = len(songs)
@@ -214,7 +215,7 @@ def EN_id2summary(filename, EN_id_list):
 
     ppl.pcolormesh(fig, ax, transformed, xticklabels=labels, yticklabels=labels)
     ax.legend_ =None
-    fig.savefig('app/static/'+str(filename))
+    fig.savefig('app/static/'+str(filename), transparent=True)
     
     return songdatalist, dist_matrix, playlist, summarydf, orig_artists_and_songs
 
@@ -353,17 +354,18 @@ def DiGraph(songdatalist, dist_matrix, playlist, summarydf, filename):
 
 
     playlist_heat =  weightlistlist[idxmin]
+    spacer = [None]*len(playlist_heat)
 
-    comparison = zip(playlist_heat, shuffle)
+    comparison = zip(playlist_heat, spacer, shuffle)
     transformed = np.array(comparison)
 
     fig, ax = ppl.subplots(1)
-
-    ppl.pcolormesh(fig, ax, transformed, vmin=0, vmax=1.6)
-    fig.suptitle('{SetList]        Shuffle')
+    p = ax.pcolormesh(transformed, facecolor="black",vmin=0, vmax=1.6, cmap=mpl.cm.Reds)
+    ax.set_xticklabels([])
+    ax.set_yticklabels([])
 
     ax.legend_ =None
-    fig.savefig('app/static/comparison_'+str(filename))
+    fig.savefig('app/static/comparison_'+str(filename), transparent=True)
 
 
     
