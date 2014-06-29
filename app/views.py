@@ -48,11 +48,17 @@ def generatedistance():
     beatstracks = beatspl2tracks(query)
     entracks = beats2echonest(beatstracks)
     filename = 'request_' + query + '.png'
-    songdatalist, dist_matrix, playlist = EN_id2summary(filename, entracks)
-    bestpath, minval, shuffle, avg_shuffle, improvement, orig_tups = DiGraph(songdatalist, dist_matrix, playlist)
+    songdatalist, dist_matrix, playlist, summarydf = EN_id2summary(filename, entracks)
+    bestpath, min_edgepath, shuffle, avg_shuffle, improvement, songs_and_artists = DiGraph(songdatalist, dist_matrix, playlist, summarydf)
     filename = url_for('static', filename=filename)
+
+    print songs_and_artists
+
+    artists = []
+    for song in songs_and_artists:
+        artists.append(song[1])
     
-    return render_template('generatedistance.html', query=query, url = filename, bestpath=bestpath, minval=minval, shuffle=shuffle, avg_shuffle=avg_shuffle, improvement=improvement, tups = orig_tups)
+    return render_template('generatedistance.html', query=query, url = filename, bestpath=bestpath, minval=min_edgepath, shuffle=shuffle, avg_shuffle=avg_shuffle, improvement=improvement, songs_and_artists=songs_and_artists)
     
 @app.route('/progressbar')
 def progressbar():

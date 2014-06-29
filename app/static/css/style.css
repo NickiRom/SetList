@@ -231,6 +231,13 @@ input[type="text"]{
     line-height: 24px;
 }
 
+td {
+  padding: 15px;
+}
+table.playlist{
+  border-spacing:5px 15px;
+
+
 
 /* Set the fixed height of the footer here */
 #footer {

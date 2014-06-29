@@ -27,6 +27,7 @@ from networkx.algorithms.traversal.depth_first_search import dfs_tree
 from collections import defaultdict
 from operator import itemgetter
 import random
+import collections, itertools
 
 
 def setlist(beats_playlist):
@@ -150,7 +151,7 @@ def EN_id2summary(filename, EN_id_list):
             tempdict = json_obj['response']['songs'][0]['audio_summary']
             tempdf = pd.DataFrame(tempdict, index = [1])
 
-            tempdf['artist']= json_obj['response']['songs'][0]['artist_id']
+            tempdf['artist']= json_obj['response']['songs'][0]['artist_name']
             tempdf['track_id']= json_obj['response']['songs'][0]['id']
             tempdf['song']=json_obj['response']['songs'][0]['title']
             playlist.append(json_obj['response']['songs'][0]['title'])
@@ -206,21 +207,31 @@ def EN_id2summary(filename, EN_id_list):
     ax.legend_ =None
     fig.savefig('app/static/'+str(filename))
     
-    return songdatalist, dist_matrix, playlist
-
+    return songdatalist, dist_matrix, playlist, summarydf
 
 #------------------------------------------------------------------------------
 
-def DiGraph(songdatalist, dist_matrix, playlist):
+def window(it, winsize, step=1):
+    """Sliding window iterator."""
+    it=iter(it)  # Ensure we have an iterator
+    l=collections.deque(itertools.islice(it, winsize))
+    while 1:  # Continue till StopIteration gets raised.
+        yield tuple(l)
+        for i in range(step):
+            l.append(it.next())
+            l.popleft()
+#------------------------------------------------------------------------------
+
+def DiGraph(songdatalist, dist_matrix, playlist, summarydf):
     
 
     #convert to dataframe with trackIDs as columns
     columns = ['a','b','c','d','e','f','g','h','i','k','j','l','m','n','o','p','q','r']
     df = pd.DataFrame(dist_matrix, index = playlist, columns = playlist)
-    #print df
+
     
     index = 0
-    row = 2
+    row = 0
     
     tups = []
     cols = columns
@@ -230,8 +241,16 @@ def DiGraph(songdatalist, dist_matrix, playlist):
         for index, cols in enumerate(df):
             mytups = [df.index[index1].encode('ascii', 'ignore'), df.columns[index].encode('ascii', 'ignore'), df.ix[index1][index]]
             tups.append(mytups)
-    #transform weights to create a higher penalty for higher weights
-    orig_tups = tups
+    
+    
+    #save distance matrix as tuples before removing some values (next step)
+    orig_tups = []    
+    for tup in tups:
+        orig_tup = (tup[0],tup[1],tup[2])
+        orig_tups.append(orig_tup)
+   
+    
+    #rank transition scores
     scores = []
     
     for item in tups:
@@ -239,13 +258,24 @@ def DiGraph(songdatalist, dist_matrix, playlist):
     
     scores = sorted(scores, reverse=True)
     
-    average_score = sum(scores)/float(len(scores))    
-
+    #Remove all tups that represent a song transitioning to itself
     for worst in scores:
         for tup in tups:
             if tup[2] == 0:
                 tups.remove(tup)
+    
 
+    #in preparation for removing worse than average values, find out distribution of scores
+    scores = []
+    
+    for item in tups:
+        scores.append(item[2])
+    
+    scores = sorted(scores, reverse=True)
+    average_score = sum(scores)/float(len(scores)) 
+    
+    
+    #find weight of the shuffled playlist
     shuffleweight=[]
     mintup = 5
     maxtup = 0
@@ -274,10 +304,11 @@ def DiGraph(songdatalist, dist_matrix, playlist):
         for tup in tups:
             if tup[2] >= average_score:
                 tups.remove(tup)
-                
-    tups_weights = []  #get weights of all kept tups for shuffle validation
-    for tup in tups:
-        tups_weights.append(tup[2])
+    
+   
+    #tups_weights = []  #get weights of all kept tups for shuffle validation
+
+    #tups_weights.append(tup[2])
     
     DG=nx.DiGraph()
     DG.add_weighted_edges_from(tups)
@@ -288,44 +319,48 @@ def DiGraph(songdatalist, dist_matrix, playlist):
     
     
     for index, nodes in enumerate(DG): #start a DFS at each node
-        order = list(nx.dfs_edges(DG, nodes)) #order of the search is recorded for this node
-        orderlist.append(order)  #added to a list of paths
+
+        order = list(nx.dfs_postorder_nodes(DG, nodes)) #order of the search is recorded as a list of nodes
+        orderlist.append(order)  #added to a list of paths, each starting at a node
+
         weightlist = []
-        for song in order:
+        songpairlist = list(window(order,2))
+
+        for songpair in songpairlist:
             for tup in tups:
-                if tup[0]==song[0]:
-                    if tup[1]==song[1]:
-                        weightlist.append(tup[2])  #get the weight of the edges
-    
+                if tup[0]==songpair[0]:
+                    if tup[1]==songpair[1]:
+                        weightlist.append(tup[2])  #add the path weight to the list of path weights
         weightlistlist.append(weightlist)
         avg_edge = sum(weightlist)/len(weightlist)  #edge weight per track in this playlist
-        avg_edges.append(avg_edge)    #edge weight per track for all playlists
+        avg_edges.append(avg_edge)    #edge weight per track for all playlists; will be used to find the best playlist from all the n dfs trees
         
- 
-    #min(enumerate(a), key=itemgetter(1))[0]
-    minval, idxmin = min((val, idx) for (idx,val) in enumerate(avg_edges))
-
-    bestlist = orderlist[idxmin]
-    bestpath = []
-    for songs in bestlist:
-        bestpath.append(songs[0])
-    print bestpath
-
-    #get artist names associated with bestpath:
-    '''for songs in bestpath:
-        artist = summarydf'''
+    min_edgepath = min(avg_edges)   #identifies the best playlist from average edgeweights for each dfs
+    for i,j in enumerate(avg_edges):
+        if j == min_edgepath:
+            idxmin = i
+            bestpath = orderlist[idxmin]  #finds which dfs is connected to the lowest average edgeweight and identifies that bestpath
+    
+    
+    #add artist names to the bestpath list of songs
+    df_row_list = list(summarydf.itertuples())  #change summary dataframe to a list of lists
+    song_and_artist=[]
+    songs_and_artists=[]
+    for bestsongs in bestpath:    #for each song in the best path
+        for songs in df_row_list: #match the song name to a row in the summary
+            if songs[3]==bestsongs:
+                song_and_artist = [songs[1].encode('ascii', 'xmlcharrefreplace'), bestsongs]  #create a song and artist pair
+        songs_and_artists.append(song_and_artist)
     
                 
-    avg_shuffle= sum(shuffleweight)/len(shuffleweight)
+    avg_shuffle= sum(shuffleweight)/len(shuffleweight)  #finds the average weight of a shuffled playlist
 
 
     
-    improvement = int((avg_shuffle - minval)/avg_shuffle*100)
-    minval = round(minval, 2)
+    improvement = int((avg_shuffle - min_edgepath)/avg_shuffle*100)  #finds improvement in playlist transitions
+    min_edgepath = round(min_edgepath, 2)
     avg_shuffle = round(avg_shuffle, 2)
     
-    return bestpath, minval, shuffle, avg_shuffle, improvement, orig_tups
-
-
+    return bestpath, min_edgepath, shuffle, avg_shuffle, improvement, songs_and_artists
 
 
