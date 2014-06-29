@@ -28,6 +28,7 @@ from collections import defaultdict
 from operator import itemgetter
 import random
 import collections, itertools
+import string
 
 
 def setlist(beats_playlist):
@@ -84,8 +85,8 @@ def beats2echonest(track_id):
         beats_url = beats_url + query + client_id
         #print beats_url
         
-        response = requests.get(beats_url)
-        json_obj = json.loads(response.text)
+        response = urllib2.urlopen(beats_url)
+        json_obj = json.load(response)
      
             
         trackname = json_obj['data']['title'].encode('utf-8')
@@ -160,7 +161,15 @@ def EN_id2summary(filename, EN_id_list):
         
 
     summarydf = pd.DataFrame(df, columns = columns)
-
+    
+    #get an original ordering of songs and artists to display next to transition matrix
+    orig_songs_and_artists=[]
+    artists = summarydf[:]['artist'].tolist()  #get list of artists
+    songs = summarydf[:]['song'].tolist()   #get list of songs (in original order)
+    length = len(songs)
+    labels = string.uppercase[:length]
+    orig_artists_and_songs = zip(labels, artists,songs)  #zip them together
+    
     songdatalist = []
 
     #convert to list of rows (list of lists)
@@ -203,11 +212,11 @@ def EN_id2summary(filename, EN_id_list):
 
     fig, ax = ppl.subplots(1)
 
-    ppl.pcolormesh(fig, ax, transformed)
+    ppl.pcolormesh(fig, ax, transformed, xticklabels=labels, yticklabels=labels)
     ax.legend_ =None
     fig.savefig('app/static/'+str(filename))
     
-    return songdatalist, dist_matrix, playlist, summarydf
+    return songdatalist, dist_matrix, playlist, summarydf, orig_artists_and_songs
 
 #------------------------------------------------------------------------------
 
@@ -222,7 +231,7 @@ def window(it, winsize, step=1):
             l.popleft()
 #------------------------------------------------------------------------------
 
-def DiGraph(songdatalist, dist_matrix, playlist, summarydf):
+def DiGraph(songdatalist, dist_matrix, playlist, summarydf, filename):
     
 
     #convert to dataframe with trackIDs as columns
@@ -340,6 +349,23 @@ def DiGraph(songdatalist, dist_matrix, playlist, summarydf):
         if j == min_edgepath:
             idxmin = i
             bestpath = orderlist[idxmin]  #finds which dfs is connected to the lowest average edgeweight and identifies that bestpath
+
+
+
+    playlist_heat =  weightlistlist[idxmin]
+
+    comparison = zip(playlist_heat, shuffle)
+    transformed = np.array(comparison)
+
+    fig, ax = ppl.subplots(1)
+
+    ppl.pcolormesh(fig, ax, transformed, vmin=0, vmax=1.6)
+    fig.suptitle('{SetList]        Shuffle')
+
+    ax.legend_ =None
+    fig.savefig('app/static/comparison_'+str(filename))
+
+
     
     
     #add artist names to the bestpath list of songs
