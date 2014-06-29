@@ -23,7 +23,8 @@ app.secret_key = 'junk'
 @app.route('/getplaylistinfo', methods=['POST'])
 def getplaylistinfo():
     
-
+    #for cached playlists:
+    
     request.form['query']   
     select_query = request.form['query'] 
  
