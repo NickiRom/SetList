@@ -22,7 +22,7 @@
 .tt-query,
 .tt-hint {
   width: 288px;
-  height: 30px;
+  height: 40px;
   padding: 8px 12px;
   font-size: 18px;
   line-height: 30px;
@@ -31,7 +31,7 @@
 }
 
 .typeahead {
-  background-color: #fff;
+  background-color: #000;
 }
 
 .typeahead:focus {
