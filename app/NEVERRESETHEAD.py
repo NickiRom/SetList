@@ -30,6 +30,8 @@ from operator import itemgetter
 import random
 import collections, itertools
 import string
+import os
+
 
 
 def setlist(beats_playlist):
@@ -389,6 +391,21 @@ def DiGraph(songdatalist, dist_matrix, playlist, summarydf, filename):
     min_edgepath = round(min_edgepath, 2)
     avg_shuffle = round(avg_shuffle, 2)
     
-    return bestpath, min_edgepath, shuffle, avg_shuffle, improvement, songs_and_artists
+    return min_edgepath, shuffle, avg_shuffle, improvement, songs_and_artists
+
+def get_cached(query): 
+    cached_file = query.encode('utf-8')+'.json'
+    os.getcwd()
+    print cached_file
+    written = json.load(open('app/static/'+cached_file))
+    avg_shuffle = written[0]['avg_shuffle']
+    improvement = written[0]['improvement']
+    min_edgepath = written[0]['min_edgepath']
+    orig_artists_and_songs=written[0]['orig_artists_and_songs']
+    playlist_id = written[0]['playlist_id']
+    shuffle = written[0]['shuffled']
+    songs_and_artists = written[0]['songs_and_artists']
+
+    return songs_and_artists, min_edgepath, shuffle, avg_shuffle, orig_artists_and_songs, improvement
 
 

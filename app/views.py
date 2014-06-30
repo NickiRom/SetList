@@ -3,8 +3,9 @@ from flask import Flask, render_template, request, session, url_for, jsonify
 from app import app, host, port, user, passwd, db
 from app.helpers.database import con_db
 import pymysql
-from NEVERRESETHEAD import beatspl2tracks, beats2echonest, EN_id2summary, DiGraph
+from NEVERRESETHEAD import beatspl2tracks, beats2echonest, EN_id2summary, DiGraph, get_cached
 import csv
+
 
 # To create a database connection, add the following
 # within your view functions:
@@ -46,21 +47,30 @@ def generatedistance():
     request.form['query']   
     query = request.form['query'] 
     
-    beatstracks = beatspl2tracks(query)
-    entracks = beats2echonest(beatstracks)
-    filename = 'request_' + query + '.png'
-    songdatalist, dist_matrix, playlist, summarydf, orig_artists_and_songs = EN_id2summary(filename, entracks)
-    bestpath, min_edgepath, shuffle, avg_shuffle, improvement, songs_and_artists = DiGraph(songdatalist, dist_matrix, playlist, summarydf, filename)
-    url = url_for('static', filename=filename)
-    url2 = url_for('static', filename="comparison_"+filename)
-
-    print songs_and_artists
+    path = ''
+    cached_plid= ['pl170577122547466496','pl147773287731036416','pl151894969496371456', 'pl151764388523540736','pl152858163299746048','pl196764123525021952','pl196411940837261312', 'pl197125380790813184']
+    for plids in cached_plid:
+        if query == plids:
+            path = "cached"
+    if path=="cached":
+        songs_and_artists, min_edgepath, shuffle, avg_shuffle, orig_artists_and_songs, improvement = get_cached(query)
+        filename = 'request_' + query + '.png'
+        url = url_for('static', filename =  'request_' + query + '.png')
+        url2 = url_for('static', filename="comparison_"+filename)
+    else:
+        beatstracks = beatspl2tracks(query)
+        entracks = beats2echonest(beatstracks)
+        filename = 'request_' + query + '.png'
+        songdatalist, dist_matrix, playlist, summarydf, orig_artists_and_songs = EN_id2summary(filename, entracks)
+        min_edgepath, shuffle, avg_shuffle, improvement, songs_and_artists = DiGraph(songdatalist, dist_matrix, playlist, summarydf, filename)
+        url = url_for('static', filename=filename)
+        url2 = url_for('static', filename="comparison_"+filename)
 
     artists = []
     for song in songs_and_artists:
         artists.append(song[1])
     
-    return render_template('generatedistance.html', query=query, url = url, url2=url2, bestpath=bestpath, minval=min_edgepath, shuffle=shuffle, avg_shuffle=avg_shuffle, improvement=improvement, songs_and_artists=songs_and_artists, orig_artists_and_songs=orig_artists_and_songs)
+    return render_template('generatedistance.html', query=query, url = url, url2=url2, minval=min_edgepath, shuffle=shuffle, avg_shuffle=avg_shuffle, improvement=improvement, songs_and_artists=songs_and_artists, orig_artists_and_songs=orig_artists_and_songs)
     
 @app.route('/progressbar')
 def progressbar():
