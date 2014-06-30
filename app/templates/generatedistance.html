@@ -3,68 +3,85 @@
 {% block content %}
 <div id='wrap' style="margin:100px">
     <div class = "container container-xs-height">
- <div class="row">
-    <div class="col-lg-12" >
-        <div class="item-header">
-            <div class="content">
-            
-            <p style="text-shadow:5px 2px 0 rgba(4,182,201,1);font-weight:normal;color:#000000;letter-spacing:6pt;word-spacing:0pt;font-size:120px;text-align:left;font-family:helvetica, sans-serif;line-height:1;">{SetList]</p>
+         <div class="row">
+            <div class="col-lg-12" >
+                <div class="item-header">
+                    <div class="content">
+                    
+                    <p style="text-shadow:5px 2px 0 rgba(4,182,201,1);font-weight:normal;color:#000000;letter-spacing:6pt;word-spacing:0pt;font-size:120px;text-align:left;font-family:helvetica, sans-serif;line-height:1;">{SetList]</p>
+                    </div>
+                </div>
+            </div>
+         </div>
+
+         <div class="row" style="border-radius:10; box-shadow:20; background-color:rgba(4,182,201,.7); border-radius:10px;border-width:5px;border-color:#333; border-style: outset; margin-top:50px; margin-bottom:50px;">
+            <div class="col-1of2" vertical-align="middle;">
+                <a href="https://listen.beatsmusic.com/playlists/{{query}}"><img src={{beats_img}} height="400px" width="400px" style="margin-left:auto; margin-right:auto;border:10px solid #333;border-style: outset;"></a>
+            </div>
+            <div class="col-2of2">
+                <div class="item-table">
+                    <div class='content'>
+                        <table class = "playlist" style="font-family:helvetica;">
+                          {% for listing in songs_and_artists %}
+                            <tr>
+                              <th scope="row">{{loop.index}}</th>
+                              <td>
+                                <b>{{listing[0]}}</b>&nbsp&nbsp&nbsp
+                                {{listing[1]}}
+                              </td>
+                            </tr>
+                          {% endfor %}
+                        </table>
+                    </div>
+                </div>                        
             </div>
         </div>
+        <div class="row-validation" style="padding:20px;">
+            <table class="transition-validation" >
+                <tr class="row-validation1">
+                    <th scope="col"></th>
+                    <th scope="col">{SetList]</th>
+                    <th scope="col">Shuffle</th>
+                </tr>
+                <tr class="row-validation1">
+                    <th scope="row">Transition Score:</th>
+                    <td>{{minval}}</td>
+                    <td>{{avg_shuffle}}</td>
+                </tr>
+                <tr class="row-validation1">
+                    <th></th>                    
+                    <td colspan="2" style="font-weight:bold; color:#fce76f">{{improvement}}% Improvement</td>
+                </tr>
+            </table>
+        </div>
     </div>
- </div>
 
- <div class="row" style="border-radius:10; box-shadow:20; background-color:rgba(4,182,201,.7); border-radius:10px;border-width:5px;border-color:#333; border-style: outset; margin-top:50px; margin-bottom:50px;">
+    <div class="row" style="border-radius:10; box-shadow:20; background-color:rgba(4,182,201,.85); border-radius:10px;border-width:5px;border-color:#333; border-style: outset; margin-top:50px; margin-bottom:50px; text-alignment:center;">
+    
+        <h2 style="font-family:helvetica; font-weight:bold; text-align:center;">Learn more about how these songs pair:</h2>
+        <h3 style="padding-left:150px; padding-right:150px; text-align:center;">The heat map below shows song transitions for every possible pair. <br>Darker colors represent large changes in tempo, energy, mood, danceability, and/or volume.</h3>
+
         <div class="col-1of2" vertical-align="middle;">
+            <img src="{{url}}" height="500px" width="675px" style="vertical-align:middle;margin-left:auto; margin-right:auto">
+        </div>
+        <div class="col-2of2" style="padding-right:100px">
             <div class="item-table">
-                <div class='content'>
-                    <table class = "playlist" style="font-family:helvetica;">
-                      {% for listing in songs_and_artists %}
-                        <tr>
-                          <th scope="row">{{loop.index}}</th>
-                          <td>
-                            <b>{{listing[0]}}</b>&nbsp&nbsp&nbsp
-                            {{listing[1]}}
-                          </td>
-                        </tr>
-                      {% endfor %}
-                    </table>
-                </div>
-                </div>
-                </div>
-                <div class="col-2of2">
-<a href="https://listen.beatsmusic.com/playlists/{{query}}"><img src={{beats_img}} height="400px" width="400px" style="margin-left:auto; margin-right:auto;border:10px solid #333;border-style: outset;"></a>
-                    
-                </div>
-            </div>
-</div>
- <div class="row" height="50px"> </div>
-<div class="row" style="border-radius:10; box-shadow:20; background-color:rgba(4,182,201,.7); border-radius:10px;border-width:5px;border-color:#333; border-style: outset;">
-    <img src="{{url}}" height="300px" width="450px" style="margin-left:auto; margin-right:auto">
-        <div class="col-sm-8">
-<h3 style="font-family:helvetica; font-size:20px;"> The transition score is {{minval}}! This playlist has {{improvement}}% better transitions than the shuffled version ({{minval}} compared to {{avg_shuffle}}).</h3>
-                <div class='content'>
-                    
-                    
+                <div class='content'>                   
                     <table class = "playlist" style="font-family:helvetica;">
                       {% for listing in orig_artists_and_songs %}
                         <tr>
                           <th scope="row">{{listing[0]}}</th>
                           <td>
-                            <b>{{listing[1]}}</b>&nbsp&nbsp&nbsp
-                            {{listing[2]}}
+                            <b>{{listing[1]}}</b>&nbsp&nbsp&nbsp{{listing[2]}}
                           </td>
                         </tr>
                       {% endfor %}
                     </table>
-                    <h3 style="font-family:helvetica; font-size:20px; padding-left:20px;"> {SetList}: {{minval}}&nbsp&nbsp&nbsp&nbspShuffle: {{avg_shuffle}}</h3>
-                    <h3 style="font-family:helvetica; font-size:20px; padding-left:20px;">Improvement of {{improvement}}%</h3>
-                    <img src="{{url2}}" height="450px" width="300px" style="margin-left:auto; margin-right:auto">
                 </div>
             </div>
         </div>
-  </div>
-
+    </div>
+    <a href="/index"><img src="http://www.djtrevsdisco.com/Images/WebIcons/GoBack_btnOver.png" alt="HTML tutorial" width="100" height="100"></a>
 </div>
 
 
