@@ -251,7 +251,7 @@ def DiGraph(songdatalist, dist_matrix, playlist, summarydf, filename):
     #put distance matrix into list of lists [[track1, track2, weight],...] for depth first search
     for index1, rows in enumerate(df):
         for index, cols in enumerate(df):
-            mytups = [df.index[index1].encode('ascii', 'ignore'), df.columns[index].encode('ascii', 'ignore'), df.ix[index1][index]]
+            mytups = [df.index[index1], df.columns[index], df.ix[index1][index]]
             tups.append(mytups)
     
     
