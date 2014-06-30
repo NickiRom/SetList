@@ -5,6 +5,8 @@ from app.helpers.database import con_db
 import pymysql
 from NEVERRESETHEAD import beatspl2tracks, beats2echonest, EN_id2summary, DiGraph, get_cached
 import csv
+import scipy
+from scipy import stats
 
 
 # To create a database connection, add the following
@@ -70,7 +72,12 @@ def generatedistance():
     for song in songs_and_artists:
         artists.append(song[1])
     beats_img = "https://api.beatsmusic.com/api/playlists/"+query+"/images/default?size=large"
-    return render_template('generatedistance.html', query=query, beats_img=beats_img, url = url, url2=url2, minval=min_edgepath, shuffle=shuffle, avg_shuffle=avg_shuffle, improvement=improvement, songs_and_artists=songs_and_artists, orig_artists_and_songs=orig_artists_and_songs)
+
+    
+    mean_shuff, var_shuff, std_shuff = scipy.stats.bayes_mvs(shuffle, alpha=0.95)
+    
+    
+    return render_template('generatedistance.html', query=query, beats_img=beats_img, url = url, url2=url2, minval=min_edgepath, shuffle=shuffle, avg_shuffle=avg_shuffle, improvement=improvement, songs_and_artists=songs_and_artists, orig_artists_and_songs=orig_artists_and_songs, mean_shuff=mean_shuff)
     
 @app.route('/progressbar')
 def progressbar():

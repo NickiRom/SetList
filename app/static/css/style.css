@@ -1,4 +1,11 @@
 /* Your CSS Styling */
+
+.button {
+    border: 2px solid #333;
+    background-color:rgba(4,182,201,.7);
+    border-radius:20px;
+}
+
 .col-top {
     vertical-align:top;
 }
@@ -12,6 +19,20 @@
     vertical-align:middle;
     width:1200px;
 }  
+.row-validation {
+    width:500px;    
+    text-align:center;
+    background-color:#333;
+    border:2px solid #04B6C9;
+    border-radius:10px;
+    margin-left:auto;
+    margin-right:auto;
+    font-color:#fff;
+    
+}
+.row-validation1{
+    color:white !important;
+}
 
 .col-sm-height {
     display:table-cell;
@@ -27,6 +48,17 @@
 
     float:right;
     width:600px;
+}
+.transition-validation {
+    font-family: helvetica;
+    font-color: #fff;
+    font-size: 20px;
+    padding: 10px;
+    border-collapse:separate;
+    border-spacing: 15px 10px;
+    
+
+
 }
 @media (min-width: 992px) {
     .container-md-height {
@@ -159,7 +191,7 @@ input[type="text"]{
     height:100%;
 
     padding:16px 8px;
-	background-color:rgba(170,170,170,.5);
+	background-color:rgba(170,170,170,.7);
     border-radius:10px;
 
 }
@@ -302,7 +334,7 @@ td {
 table.playlist{
   border-spacing:5px 15px;
 
-
+}
 
 /* Set the fixed height of the footer here */
 #footer {

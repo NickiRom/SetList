@@ -358,7 +358,7 @@ def DiGraph(songdatalist, dist_matrix, playlist, summarydf, filename):
     playlist_heat =  weightlistlist[idxmin]
     spacer = [None]*len(playlist_heat)
 
-    comparison = zip(playlist_heat, spacer, shuffle)
+    comparison = zip(playlist_heat, spacer,spacer,spacer, shuffle)
     transformed = np.array(comparison)
 
     fig, ax = ppl.subplots(1)
