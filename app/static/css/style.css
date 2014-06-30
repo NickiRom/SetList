@@ -49,6 +49,26 @@
     float:right;
     width:600px;
 }
+
+.col-1of2b {
+    display:table-cell;
+    float:left;
+    padding-left: 20px;
+    width:300px;
+}
+.col-2of2b {
+    width:600px;
+}
+.col-left {
+
+    float:right;
+    width:400px;
+}
+.col-right {
+    float:none;
+    width:200px;
+}
+
 .transition-validation {
     font-family: helvetica;
     font-color: #fff;
