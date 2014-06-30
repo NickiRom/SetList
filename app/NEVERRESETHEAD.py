@@ -379,7 +379,7 @@ def DiGraph(songdatalist, dist_matrix, playlist, summarydf, filename):
     for bestsongs in bestpath:    #for each song in the best path
         for songs in df_row_list: #match the song name to a row in the summary
             if songs[3]==bestsongs:
-                song_and_artist = [songs[1].encode('ascii', 'xmlcharrefreplace'), bestsongs]  #create a song and artist pair
+                song_and_artist = [songs[1], bestsongs]  #create a song and artist pair
         songs_and_artists.append(song_and_artist)
     
                 
