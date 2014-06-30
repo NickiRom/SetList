@@ -69,8 +69,8 @@ def generatedistance():
     artists = []
     for song in songs_and_artists:
         artists.append(song[1])
-    
-    return render_template('generatedistance.html', query=query, url = url, url2=url2, minval=min_edgepath, shuffle=shuffle, avg_shuffle=avg_shuffle, improvement=improvement, songs_and_artists=songs_and_artists, orig_artists_and_songs=orig_artists_and_songs)
+    beats_img = "https://api.beatsmusic.com/api/playlists/"+query+"/images/default?size=large"
+    return render_template('generatedistance.html', query=query, beats_img=beats_img, url = url, url2=url2, minval=min_edgepath, shuffle=shuffle, avg_shuffle=avg_shuffle, improvement=improvement, songs_and_artists=songs_and_artists, orig_artists_and_songs=orig_artists_and_songs)
     
 @app.route('/progressbar')
 def progressbar():
