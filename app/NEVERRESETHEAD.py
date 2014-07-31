@@ -55,7 +55,7 @@ def setlist(beats_playlist):
 #--------------------------------------------------------------------
 def beatspl2tracks(beats_playlist):
     
-    access_token = '?access_token='bt4rgr495umyr3arn5napnn4'
+    access_token = '?access_token=bt4rgr495umyr3arn5napnn4'
     client_id = '&client_id=cu4dweftqe5nt2wcpukcvgqu'
     
     url = 'https://partner.api.beatsmusic.com/v1/api/playlists/' + beats_playlist + access_token
