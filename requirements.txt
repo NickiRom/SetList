@@ -2,7 +2,7 @@ Flask==0.10.1
 Jinja2==2.11.3
 MarkupSafe==0.19
 PyMySQL==0.6.2
-Werkzeug==0.15.3
+Werkzeug==2.2.3
 argparse==1.2.1
 backports.ssl-match-hostname==3.4.0.2
 brewer2mpl==1.4
