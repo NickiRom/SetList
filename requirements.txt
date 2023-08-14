@@ -20,6 +20,6 @@ python-dateutil==2.2
 pytz==2014.4
 requests==2.3.0
 six==1.7.2
-tornado==3.2.2
+tornado==6.3.3
 urllib3==1.26.5
 wsgiref==0.1.2
